@@ -44,7 +44,7 @@ class AutomatizadorDeVagas extends Vagas {
     this.candidatoAhSerVerificado = new Candidato();
   }
   calcularCompatibilidade(numero) {
-    let indice = numero - 1;
+    let indice = numero;
     let vagaAhSerVerificada = this.vagas[indice];
     let requisitosAtendidos = vagaAhSerVerificada.requisitos.filter((item) => {
       return this.candidatoAhSerVerificado.candidato.habilidades.includes(item);
@@ -54,17 +54,26 @@ class AutomatizadorDeVagas extends Vagas {
       100;
     return calcularPorcentagem;
   }
+
+  vagaComMaiorCompatibilidade() {
+    let porcentagens = [];
+    for(let indice in this.vagas){
+      porcentagens.push(this.calcularCompatibilidade(indice))
+    }
+    let maior = porcentagens.reduce((acc, numero) => {
+      return numero > acc ? numero : acc;
+    })
+
+    let indices = porcentagens.map((numero, indice) => numero === maior ? indice : -1).filter(indice => indice !== -1)
+
+    for(let item in indices){
+      alert(JSON.stringify(this.vagas[item]))
+    }
+
+  }
 }
 
-/* let nivelCompatibilidade = ""; 
-if(calcularPorcentagem >= 80) { 
-nivelCompatibilidade += "Alta compatibilidade" 
-} else if(calcularPorcentagem >= 50){ 
- nivelCompatibilidade += "Média compatibilidade" 
- } else { 
-    nivelCompatibilidade += "Baixa compatibilidade" 
-} 
-    alert(`Empresa: ${vagaAhSerVerificada.empresa} 
-    Cargo: ${vagaAhSerVerificada.cargo} 
-    Compatibilidade: ${calcularPorcentagem}% 
-    Habilidades encontradas `) */
+let av = new AutomatizadorDeVagas()
+
+av.vagaComMaiorCompatibilidade()
+
