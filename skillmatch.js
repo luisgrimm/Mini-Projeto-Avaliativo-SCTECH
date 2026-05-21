@@ -38,15 +38,24 @@ class Vagas {
     ];
   }
 
-  listarVagas(){
+  listarVagas() {
     let listagem = "";
-    let numero = 1
-    for(let item of this.vagas){
-      listagem += numero++ + " " + "Empresa: " + item.empresa + "\n" +
-      "Cargo: " + item.cargo + "\n" +
-      "Habilidades exigidas: " + item.requisitos.join(", ") + "\n\n"
+    let numero = 1;
+    for (let item of this.vagas) {
+      listagem +=
+        numero++ +
+        " " +
+        "Empresa: " +
+        item.empresa +
+        "\n" +
+        "Cargo: " +
+        item.cargo +
+        "\n" +
+        "Habilidades exigidas: " +
+        item.requisitos.join(", ") +
+        "\n\n";
     }
-    alert(listagem)
+    alert(listagem);
   }
 }
 
@@ -56,12 +65,21 @@ class AutomatizadorDeVagas extends Vagas {
     this.candidatoAhSerVerificado = new Candidato();
   }
 
+  verCurriculo(){
+    alert("Seu curriculo:" + "\n" + "Nome: " + this.candidatoAhSerVerificado.candidato.nome + "\n" +
+    "Area: " + this.candidatoAhSerVerificado.candidato.area + "\n" +
+    "Habilidades: " + this.candidatoAhSerVerificado.candidato.habilidades.join(", ") + "\n" +
+    "Experiencia em meses: " + this.candidatoAhSerVerificado.candidato.experienciaMeses)
+  }
+
   calcularCompatibilidade(indice) {
     let vagaAhSerVerificada = this.vagas[indice];
     let requisitosAtendidos = vagaAhSerVerificada.requisitos.filter((item) => {
       return this.candidatoAhSerVerificado.candidato.habilidades.includes(item);
     });
-    let calcularPorcentagem = (requisitosAtendidos.length / vagaAhSerVerificada.requisitos.length) * 100;
+    let calcularPorcentagem =
+      (requisitosAtendidos.length / vagaAhSerVerificada.requisitos.length) *
+      100;
     return calcularPorcentagem;
   }
 
@@ -78,12 +96,40 @@ class AutomatizadorDeVagas extends Vagas {
       .map((numero, indice) => (numero === maior ? indice : -1))
       .filter((indice) => indice !== -1);
 
-    let aparecer = ""
+    let aparecer = "";
     for (let item in indices) {
-      aparecer += "Vaga mais compatível: " + "\n" + this.vagas[item].empresa + " - " + this.vagas[item].cargo + 
-      "\n" + "Compatibilidade: " + this.calcularCompatibilidade(item) + "%" + "\n\n";
+      aparecer +=
+        "Vaga mais compatível: " +
+        "\n" +
+        this.vagas[item].empresa +
+        " - " +
+        this.vagas[item].cargo +
+        "\n" +
+        "Compatibilidade: " +
+        this.calcularCompatibilidade(item) +
+        "%" +
+        "\n\n";
     }
-    alert(aparecer)
+    alert(aparecer);
   }
-
 }
+
+let skillmatch = new AutomatizadorDeVagas();
+
+let opcao = 0;
+do {
+  opcao = Number(prompt("-----Bem Vindo----- \n -----Escolha----- \n 1 - Analisar Vagas \n 2 - Ver seu curriculo \n 0 - Sair"));
+  switch (opcao) {
+    case 1:
+      skillmatch.listarVagas();
+      break;
+    case 2:
+      skillmatch.verCurriculo();
+      break;
+    case 0:
+      alert("Saindo...")
+      break
+    default:
+      alert("Opção invalida")
+  }
+} while (opcao != 0);
