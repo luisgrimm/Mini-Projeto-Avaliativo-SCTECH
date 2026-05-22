@@ -38,7 +38,7 @@ class Vagas {
     ];
   }
 
-  listarVagas() {
+  async listarVagas() {
     let listagem = "";
     let numero = 1;
     for (let item of this.vagas) {
@@ -55,7 +55,40 @@ class Vagas {
         item.requisitos.join(", ") +
         "\n\n";
     }
-    alert(listagem);
+
+    function contadorDeVagas() {
+      let total = 0;
+
+      return function () {
+        total++;
+        return total;
+      };
+    }
+
+    let contar = contadorDeVagas();
+
+    alert("Listando vagas...");
+    for(let item in this.vagas){
+       alert(contar() + " Vagas encontradas"); 
+    }
+
+    let promise = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        let sucesso = true;
+        if (sucesso) {
+          resolve(listagem);
+        } else {
+          reject("Ocorreu um erro na operação");
+        }
+      }, 2000);
+    });
+
+    try {
+      let resultado = await promise;
+      alert(resultado);
+    } catch (erro) {
+      alert(erro);
+    }
   }
 }
 
@@ -65,11 +98,22 @@ class AutomatizadorDeVagas extends Vagas {
     this.candidatoAhSerVerificado = new Candidato();
   }
 
-  verCurriculo(){
-    alert("Seu curriculo:" + "\n" + "Nome: " + this.candidatoAhSerVerificado.candidato.nome + "\n" +
-    "Area: " + this.candidatoAhSerVerificado.candidato.area + "\n" +
-    "Habilidades: " + this.candidatoAhSerVerificado.candidato.habilidades.join(", ") + "\n" +
-    "Experiencia em meses: " + this.candidatoAhSerVerificado.candidato.experienciaMeses)
+  verCurriculo() {
+    alert(
+      "Seu curriculo:" +
+        "\n" +
+        "Nome: " +
+        this.candidatoAhSerVerificado.candidato.nome +
+        "\n" +
+        "Area: " +
+        this.candidatoAhSerVerificado.candidato.area +
+        "\n" +
+        "Habilidades: " +
+        this.candidatoAhSerVerificado.candidato.habilidades.join(", ") +
+        "\n" +
+        "Experiencia em meses: " +
+        this.candidatoAhSerVerificado.candidato.experienciaMeses,
+    );
   }
 
   calcularCompatibilidade(indice) {
@@ -112,24 +156,32 @@ class AutomatizadorDeVagas extends Vagas {
     }
     alert(aparecer);
   }
+
+  async iniciarPrograma() {
+    let opcao = 0;
+    do {
+      opcao = Number(
+        prompt(
+          "-----Bem Vindo----- \n -----Escolha----- \n 1 - Analisar Vagas \n 2 - Ver seu curriculo \n 0 - Sair",
+        ),
+      );
+      switch (opcao) {
+        case 1:
+          await skillmatch.listarVagas();
+          break;
+        case 2:
+          skillmatch.verCurriculo();
+          break;
+        case 0:
+          alert("Saindo...");
+          break;
+        default:
+          alert("Opção invalida");
+      }
+    } while (opcao != 0);
+  }
 }
 
 let skillmatch = new AutomatizadorDeVagas();
 
-let opcao = 0;
-do {
-  opcao = Number(prompt("-----Bem Vindo----- \n -----Escolha----- \n 1 - Analisar Vagas \n 2 - Ver seu curriculo \n 0 - Sair"));
-  switch (opcao) {
-    case 1:
-      skillmatch.listarVagas();
-      break;
-    case 2:
-      skillmatch.verCurriculo();
-      break;
-    case 0:
-      alert("Saindo...")
-      break
-    default:
-      alert("Opção invalida")
-  }
-} while (opcao != 0);
+skillmatch.iniciarPrograma();
