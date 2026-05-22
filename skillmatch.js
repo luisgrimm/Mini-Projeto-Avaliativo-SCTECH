@@ -38,13 +38,11 @@ class Vagas {
     ];
   }
 
-  async listarVagas() {
+  async listarVagas(callback) {
     let listagem = "";
-    let numero = 1;
     for (let item of this.vagas) {
       listagem +=
-        numero++ +
-        " " +
+        item.id + " - " +
         "Empresa: " +
         item.empresa +
         "\n" +
@@ -85,7 +83,8 @@ class Vagas {
 
     try {
       let resultado = await promise;
-      alert(resultado);
+      let opcao = Number(prompt("Selecione a vaga que você quer analisar: " + "\n\n" + resultado));
+      callback(opcao)
     } catch (erro) {
       alert(erro);
     }
@@ -114,6 +113,30 @@ class AutomatizadorDeVagas extends Vagas {
         "Experiencia em meses: " +
         this.candidatoAhSerVerificado.candidato.experienciaMeses,
     );
+  }
+
+  vagaAnalisada(numero){
+    let indice = numero - 1;
+    let vagaAnalisada = this.vagas[indice];
+    let porcentagem = this.calcularCompatibilidade(indice);
+
+    let requisitosAtendidos = vagaAnalisada.requisitos.filter((item) => {
+      return this.candidatoAhSerVerificado.candidato.habilidades.includes(item);
+    });
+
+
+    let classificacao = "";
+    if(porcentagem >= 80){
+      classificacao = "Alta compatibilidade"
+    } else if(porcentagem >= 50){
+      classificacao = "Média compatibilidade"
+    } else {
+      classificacao = "Baixa compatibilidade"
+    }
+
+
+    alert("Empresa: " + vagaAnalisada.empresa + "\n" + "Cargo: " + vagaAnalisada.cargo + "\n" + "Compatibilidade: " + porcentagem + "%" + "\n" + "Classificação: " + classificacao)
+
   }
 
   calcularCompatibilidade(indice) {
@@ -167,7 +190,9 @@ class AutomatizadorDeVagas extends Vagas {
       );
       switch (opcao) {
         case 1:
-          await skillmatch.listarVagas();
+          await skillmatch.listarVagas((opcao) => {
+            skillmatch.vagaAnalisada(opcao)
+          });
           break;
         case 2:
           skillmatch.verCurriculo();
