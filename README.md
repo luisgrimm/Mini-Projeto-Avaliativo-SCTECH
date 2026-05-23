@@ -56,7 +56,9 @@ ou
 
 ## Estrutura do projeto
 
-skillmatch-js/
+
+```txt
+mini-projeto-avaliativo-sctech/
 │
 ├── skillmatch.js
 ├── index.html
