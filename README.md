@@ -38,6 +38,14 @@ Praticar os principais conceitos do Módulo 01:
 - GitHub;
 - Kanban.
 
+## Curta explicação de como a internet funciona 
+
+- A internet é uma gigantesca rede mundial de computadores interligados por cabos e satélites. Ela funciona como um sistema de correio ultrarrápido: seus dados são divididos em pequenos "pacotes", enviados por rotas diferentes através de roteadores e remontados no destino em frações de segundo.
+
+## Curta explicação do var
+
+- É a forma mais antiga de declarar variáveis no JavaScript. Ela é global ou tem escopo de função, o que significa que vaza facilmente de dentro de blocos (como if ou for). Além disso, o var sofre de hoisting, podendo ser usado antes da declaração e permitindo redefinições acidentais.
+
 ## Como executar
 
 Você pode executar de uma destas formas:
